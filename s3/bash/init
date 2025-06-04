@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-echo "== init"
-echo "Installing dependencies for s3 bash scripts."
-
-sudo apt-get install jq
-sudo apt-get install tree
