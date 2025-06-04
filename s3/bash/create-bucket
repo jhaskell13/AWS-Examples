@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+echo "== create-bucket"
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "No bucket name provided."
+    exit 1
+fi
+
+BUCKET_NAME="$1"
+
+CMD=(aws s3api create-bucket --bucket "$BUCKET_NAME")
+
+if [ "$AWS_DEFAULT_REGION" != "us-east-1" ]; then
+    CMD+=(--create-bucket-configuration LocationConstraint="$AWS_DEFAULT_REGION")
+else
+    echo "AWS_DEFAULT_REGION env variable is either not provided or set to \"us-east-1\". Please make sure this is intended."
+fi
+
+CMD+=(--query Location --output text)
+
+"${CMD[@]}"

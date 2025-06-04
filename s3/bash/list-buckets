@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+echo "== list-buckets"
+
+NUM_ENTRIES=".[]" # jq syntax to get ALL entries
+if [ -n "$1" ]; then
+    if [ "$1" == "latest" ]; then
+        NUM_ENTRIES=".[0]" # jq syntax for a single entry
+    else
+        NUM_ENTRIES=".[0:$1] | .[]" #jq syntax for entries 0 to $1
+    fi
+fi
+# Using jq to query by bucket name and sort by creation date
+# Grabs Buckets array| sorts by CreationDate | reverse (orderby desc) | all entries | return Name
+aws s3api list-buckets | jq -r ".Buckets | sort_by(.CreationDate) | reverse | $NUM_ENTRIES | .Name"

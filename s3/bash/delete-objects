@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+echo "== delete-objects"
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "No bucket name provided."
+    exit 1
+fi
+
+BUCKET_NAME="$1"
+
+# List objects in bucket and output into expected json for delete request
+./list-objects $BUCKET_NAME \
+    | jq -n '{Objects: [inputs | .[] | {Key: .}]}' \
+    > /tmp/delete_objects.json
+
+aws s3api delete-objects \
+    --bucket $BUCKET_NAME \
+    --delete file:///tmp/delete_objects.json 

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+echo "== put-object"
+
+if [ -z "$1" ]; then
+    echo "No bucket name provided."
+    exit 1
+fi
+
+if [ -z "$2" ]; then
+    echo "No filename provided."
+    exit 1
+fi
+
+BUCKET="$1"
+FILENAME="$2"
+OBJ_KEY=$(basename "$FILENAME")
+
+aws s3api put-object \
+    --bucket $BUCKET \
+    --key $OBJ_KEY \
+    --body $FILENAME
