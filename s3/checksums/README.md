@@ -30,7 +30,7 @@ aws s3api head-object --bucket checksums-examples-jh --key myfile.txt
 
 ### Get CRC32 checksum for myfile.txt
 ```sh
-CRC_HEX=crc32 myfile.txt # Requires libarchive-zip-perl installed
+CRC_HEX=$(crc32 myfile.txt) # Requires libarchive-zip-perl installed
 
 # AWS expects a Base64 encoded binary value of the CRC32 checksum... Why? Who the hell knows...
 CRC_B64=$(echo "$CRC_HEX" | xxd -r -p | base64)
