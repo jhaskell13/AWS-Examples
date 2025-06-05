@@ -5,6 +5,7 @@ echo "Installing dependencies for s3 CLI."
 # General dependencies
 sudo apt-get install jq
 sudo apt-get install tree
+sudo apt install nodejs
 
 # Terraform install
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
@@ -13,3 +14,6 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update
 sudo apt-get install terraform
+
+# AWS CDK
+npm i -g aws-cdk
