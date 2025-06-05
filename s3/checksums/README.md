@@ -34,7 +34,7 @@ CRC_HEX=$(crc32 myfile.txt) # Requires libarchive-zip-perl installed
 
 # AWS expects a Base64 encoded binary value of the CRC32 checksum... Why? Who the hell knows...
 CRC_B64=$(echo "$CRC_HEX" | xxd -r -p | base64)
-echo $CRC_B64
+echo $CRC_B64 # echos "58gLhw==" based on the contents of myfile.txt
 ```
 
 ### Upload to S3 with CRC32 checksum
@@ -43,5 +43,6 @@ aws s3api put-object \
     --bucket checksums-examples-jh \
     --key myfile-crc32.txt \
     --body myfile.txt \
-    --checksum-algorithm CRC32 
+    --checksum-algorithm CRC32 \
+    --checksum-crc32 58gLhw==
 ```
