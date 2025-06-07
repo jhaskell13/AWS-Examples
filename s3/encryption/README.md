@@ -34,3 +34,11 @@ aws s3 cp hello.txt s3://your-buckey/hello.txt \
     --sse-c AES256 \
     --sse-c-key fileb://ssec.key
 ```
+
+## Upload using Client-side encryption
+
+```sh
+# Using ruby
+bundle install
+bundle exec ruby encrypt.rb
+```
