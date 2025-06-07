@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>My Web App</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Hand:wght@400..700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+        font-family: "Edu VIC WA NT Hand"; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Hello, world!</h1>
+  <p>This is your starter HTML page.</p>
+
+  <script type="text/javascript">
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://t16op26co5.execute-api.us-east-2.amazonaws.com/prod/hello', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            const res = JSON.parse(xhr.responseText);
+            console.log('results', res);
+        }
+    };
+    xhr.send();
+  </script>
+</body>
+</html>
