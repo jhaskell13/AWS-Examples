@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+    echo -e "\e[31mNo VPC ID provided."
+    exit 1
+else
+    VPC_ID="$1"
+fi
+
+# Detach and delete IGW
+for igw in $(
+    aws ec2 describe-internet-gateways \
+        --filters "Name=attachment.vpc-id,Values=$VPC_ID" \
+        --query InternetGateways[].InternetGatewayId \
+        --output text
+); do
+    aws ec2 detach-internet-gateway --internet-gateway-id $igw --vpc-id $VPC_ID
+    aws ec2 delete-internet-gateway --internet-gateway-id $igw
+done
+
+echo -e "\e[32mIGWs successfully detached and deleted.\e[0m"
+
+# Dissassociate Route Tables from Subnets
+for assoc in $(
+    aws ec2 describe-route-tables \
+        --filters "Name=vpc-id,Values=$VPC_ID" \
+        --query 'RouteTables[].Associations[?Main==`false`].AssociationId' \
+        --output text
+); do
+    aws ec2 dissassociate-route-table --association-id $assoc
+done
+
+echo -e "\e[32mRoute tables successfully dissassociated.\e[0m"
+
+# Delete subnets
+for sn in $(
+    aws ec2 describe-subnets \
+        --filters "Name=vpc-id,Values=$VPC_ID" \
+        --query 'Subnets[].SubnetId' \
+        --output text
+); do
+    aws ec2 delete-subnet --subnet-id $sn
+done
+
+echo -e "\e[32mSubnets deleted.\e[0m"
+
+# Delete Route Tables
+for rt in $(
+    aws ec2 describe-route-tables \
+        --filters "Name=vpc-id,Values=$VPC_ID" \
+        --query 'RouteTables[?Associations[?Main==`false`]].RouteTableId' \
+        --output text
+); do
+    aws ec2 delete-route-table --route-table-id $rt
+done
+
+echo -e "\e[32mRoute tables deleted.\e[0m"
+
+# Delete VPC
+aws ec2 delete-vpc \
+    --vpc-id $VPC_ID
+
+echo -e "\e[32mVPC ($VPC_ID) successfully deleted!\e[0m"

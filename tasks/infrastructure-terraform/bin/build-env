@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+    echo "No environment name provided."
+    echo "Usage: <path-to-script>/build-env <ENV_NAME>"
+    exit 1
+fi
+
+ENV_PATH="./envs/$1"
+
+# Create directory
+mkdir "$ENV_PATH"
