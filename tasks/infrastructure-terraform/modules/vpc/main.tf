@@ -3,7 +3,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   enable_dns_support = true
   enable_dns_hostnames = true
-  tags = { Name = "${var.name}-vpc" }
+  tags = { Name = "${var.environment}-vpc" }
 }
 
 # Public Subnet
@@ -11,7 +11,7 @@ resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
   cidr_block = var.public_subnet_cidr 
   availability_zone = var.availability_zone 
-  tags = { Name = "${var.name}-public-subnet" }
+  tags = { Name = "${var.environment}-public-subnet" }
 }
 
 # Private Subnet
@@ -19,13 +19,13 @@ resource "aws_subnet" "private" {
   vpc_id = aws_vpc.main.id
   cidr_block = var.private_subnet_cidr 
   availability_zone = var.availability_zone 
-  tags = { Name = "${var.name}-private-subnet" }
+  tags = { Name = "${var.environment}-private-subnet" }
 }
 
 # IGW
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
-  tags = { Name = "${var.name}-igw" }
+  tags = { Name = "${var.environment}-igw" }
 }
 
 # Route Table
@@ -35,7 +35,7 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
-  tags = { Name = "${var.name}-public-rt" }
+  tags = { Name = "${var.environment}-public-rt" }
 }
 
 # Associate RT with Public Subnet

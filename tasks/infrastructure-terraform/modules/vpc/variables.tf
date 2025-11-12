@@ -1,4 +1,4 @@
-variable "name" {
+variable "environment" {
   description = "Environment prefix for resource names"
   type = string
 }

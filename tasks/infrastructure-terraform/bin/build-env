@@ -1,4 +1,5 @@
 #!/bin/bash
+# This script initiates a build for a new dev/test/prod environment infrastructure
 
 set -e
 

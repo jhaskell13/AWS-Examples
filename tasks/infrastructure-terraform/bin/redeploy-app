@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+if [ -z $1 ]; then
+    echo "No Instance ID provided"
+    echo "Usage: <path-to-script>/redeploy-app <INSTANCE_ID>"
+    exit 1
+fi
+
+INSTANCE_ID=$1
+
+aws ssm send-command \
+    --instance-ids $INSTANCE_ID \
+    --document-name "AWS-RunShellScript" \
+    --comment "Redeploy of Laravel app via SSM" \
+    --parameters commands="cd /var/www/laravel && git pull origin main && sudo systemctl restart php-fpm && sudo systemctl restart nginx"
