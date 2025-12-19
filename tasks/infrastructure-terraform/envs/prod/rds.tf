@@ -1,13 +1,13 @@
 resource "aws_security_group" "db" {
   name_prefix = "${var.environment}-db-"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.network.vpc_id
   description = "Security group for database"
 
   ingress {
     from_port       = var.db_port
     to_port         = var.db_port
     protocol        = "tcp"
-    security_groups = [aws_security_group.ec2.id]
+    security_groups = [module.compute.security_group_id]
   }
 
   lifecycle {
@@ -16,8 +16,8 @@ resource "aws_security_group" "db" {
 }
 
 resource "aws_db_subnet_group" "main" {
-  name       = "${var.environment}-db-subnet"
-  subnet_ids = module.vpc.private_subnets
+  name       = "${var.environment}-db-subnet-group"
+  subnet_ids = module.network.private_subnet_ids
 }
 
 resource "aws_db_instance" "main" {

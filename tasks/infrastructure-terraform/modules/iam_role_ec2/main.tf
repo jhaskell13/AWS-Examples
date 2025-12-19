@@ -28,8 +28,8 @@ resource "aws_iam_role_policy" "main" {
   role = aws_iam_role.main.id
 
   policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = var.inline_policy_statements 
+    Version   = "2012-10-17",
+    Statement = var.inline_policy_statements
   })
 }
 

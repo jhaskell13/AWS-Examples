@@ -6,19 +6,19 @@ data "terraform_remote_state" "staging" {
 }
 
 module "developer_user_group" {
-  source = "../../modules/iam_user_group"
+  source     = "../../modules/iam_user_group"
   group_name = "Developers"
 
   policy_name = "DeveloperS3Access-${data.terraform_remote_state.staging.outputs.environment}"
   inline_policy_statements = [
     {
-      Effect = "Allow"
-      Action = ["s3:ListAllMyBuckets"]
+      Effect   = "Allow"
+      Action   = ["s3:ListAllMyBuckets"]
       Resource = "*"
     },
     {
-      Effect = "Allow"
-      Action = ["s3:ListBucket"]
+      Effect   = "Allow"
+      Action   = ["s3:ListBucket"]
       Resource = "arn:aws:s3:::${data.terraform_remote_state.staging.outputs.bucket_name}"
     },
     {

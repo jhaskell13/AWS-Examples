@@ -14,14 +14,14 @@ variable "vpc_cidr" {
   type        = string
 }
 
-variable "public_subnet_cidr" {
-  description = "Public subnet CIDR"
-  type        = string
+variable "public_subnet_cidrs" {
+  description = "Public subnet CIDRs"
+  type        = list(string)
 }
 
-variable "private_subnet_cidr" {
-  description = "Private subnet CIDR"
-  type        = string
+variable "private_subnet_cidrs" {
+  description = "Private subnet CIDRs"
+  type        = list(string)
 }
 
 variable "availability_zone" {
@@ -42,7 +42,6 @@ variable "key_pair_name" {
 variable "domain_name" {
   description = "Domain name"
   type        = string
-  default     = "haskellsolutions.com"
 }
 
 variable "app_port" {

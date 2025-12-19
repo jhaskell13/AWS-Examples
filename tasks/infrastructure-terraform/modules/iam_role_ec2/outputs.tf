@@ -4,5 +4,5 @@ output "instance_profile_name" {
 
 output "arn" {
   description = "Service ARN for IAM Role"
-  value = aws_iam_role.main.arn
+  value       = aws_iam_role.main.arn
 }

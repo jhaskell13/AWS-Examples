@@ -4,8 +4,8 @@ variable "bucket_name" {
 }
 
 variable "expire_old_versions_after_days" {
-  type        = number
-  default     = 30
+  type    = number
+  default = 30
 }
 
 variable "tags" {

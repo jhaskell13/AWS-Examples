@@ -3,6 +3,6 @@ resource "aws_iam_user" "main" {
 }
 
 resource "aws_iam_user_group_membership" "membership" {
-  user = aws_iam_user.main.name
+  user   = aws_iam_user.main.name
   groups = [var.group_name]
 }
